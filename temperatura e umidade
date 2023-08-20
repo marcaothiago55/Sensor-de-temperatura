@@ -16,11 +16,12 @@ int estado = 0;
 unsigned long previousMillis = 0;
 const long interval = 2000;
 
-const int letreiroDelay = 150;
+const int letreiroDelay = 600;  // Atraso entre os deslocamentos do letreiro (aumentado para diminuir a velocidade)
 const int letreiroStep = 1;
 int letreiroPosition = 128;
 
 void drawLetreiro(const char *text) {
+  u8g.setColorIndex(0);  // Cor preta para o texto do letreiro
   u8g.setFont(u8g_font_8x13B);
   u8g.setPrintPos(letreiroPosition, 13);
   u8g.print(text);
@@ -31,14 +32,19 @@ void drawLetreiro(const char *text) {
 }
 
 void draw() {
+  u8g.setColorIndex(1);  // Fundo amarelo
+  u8g.drawBox(0, 0, 128, 16);
+
   if (guarda_estado == HIGH) {
-    drawLetreiro("Umidade prof Thiago");
+    drawLetreiro("UMIDADE PROF THIAGO");
+    u8g.setColorIndex(1);  // Letras azuis para as medidas
     u8g.setFont(u8g_font_fub20);
     u8g.setPrintPos(40, 50);
     u8g.print(umidade);
     u8g.drawStr(77, 50, "%");
   } else {
-    drawLetreiro("Temperatura prof Thiago");
+    drawLetreiro("TEMPERATURA PROF THIAGO");
+    u8g.setColorIndex(1);  // Letras azuis para as medidas
     u8g.setFont(u8g_font_fub20);
     u8g.setPrintPos(40, 50);
     u8g.print(temperatura);
