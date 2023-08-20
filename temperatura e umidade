@@ -20,8 +20,9 @@ const int letreiroDelay = 600;
 const int letreiroStep = 1;
 int letreiroPosition = 128;
 
-const int ledAzulPin = 9;   // Pino para o LED azul
-const int ledVermelhoPin = 10;  // Pino para o LED vermelho
+const int ledAzulPin = 9;
+const int ledVermelhoPin = 10;
+const int buzzerPin = 11;  // Pino para o buzzer passivo
 
 void drawLetreiro(const char *text) {
   u8g.setColorIndex(0);
@@ -36,11 +37,22 @@ void drawLetreiro(const char *text) {
 
 void controlarLeds(int temperatura) {
   if (temperatura <= 20) {
-    digitalWrite(ledAzulPin, HIGH);    // Acende o LED azul
-    digitalWrite(ledVermelhoPin, LOW);  // Apaga o LED vermelho
+    digitalWrite(ledAzulPin, HIGH);
+    digitalWrite(ledVermelhoPin, LOW);
   } else {
-    digitalWrite(ledAzulPin, LOW);     // Apaga o LED azul
-    digitalWrite(ledVermelhoPin, HIGH); // Acende o LED vermelho
+    digitalWrite(ledAzulPin, LOW);
+    digitalWrite(ledVermelhoPin, HIGH);
+  }
+}
+
+void controlarBuzzer(int temperatura) {
+  if (temperatura == 21) {
+    for (int i = 0; i < 3; i++) {
+      tone(buzzerPin, 1000);  // Ligar o buzzer a 1000Hz
+      delay(200);  // Manter o som por 200ms
+      noTone(buzzerPin);  // Desligar o buzzer
+      delay(200);  // Esperar 200ms antes do próximo som
+    }
   }
 }
 
@@ -71,6 +83,7 @@ void setup() {
   pinMode(pino_muda, INPUT);
   pinMode(ledAzulPin, OUTPUT);
   pinMode(ledVermelhoPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);  // Definir o pino do buzzer como saída
   dht.begin();
 }
 
@@ -81,6 +94,7 @@ void loop() {
     umidade = dht.readHumidity();
     previousMillis = currentMillis;
     controlarLeds(temperatura);
+    controlarBuzzer(temperatura);
   }
   estado = digitalRead(pino_muda);
   if (estado == HIGH) {
