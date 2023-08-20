@@ -1,0 +1,74 @@
+//Sensor de temperatura e umidade Professor Thiago Antonio marcão//
+//Aula 29 Robótica Paraná Escola Otalipío//
+#include <Adafruit_AM2320.h>
+#include "U8glib.h"
+#include <DHT.h>
+
+U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);
+#define pino_muda 6
+#define pino_DHT A0
+#define DHTTYPE DHT11
+DHT dht(pino_DHT, DHTTYPE);
+int temperatura;
+int umidade;
+int guarda_estado = LOW;
+int estado = 0;
+unsigned long previousMillis = 0;
+const long interval = 2000;
+
+const int letreiroDelay = 150;
+const int letreiroStep = 1;
+int letreiroPosition = 128;
+
+void drawLetreiro(const char *text) {
+  u8g.setFont(u8g_font_8x13B);
+  u8g.setPrintPos(letreiroPosition, 13);
+  u8g.print(text);
+  letreiroPosition -= letreiroStep;
+  if (letreiroPosition < -u8g.getStrWidth(text)) {
+    letreiroPosition = 128;
+  }
+}
+
+void draw() {
+  if (guarda_estado == HIGH) {
+    drawLetreiro("Umidade prof Thiago");
+    u8g.setFont(u8g_font_fub20);
+    u8g.setPrintPos(40, 50);
+    u8g.print(umidade);
+    u8g.drawStr(77, 50, "%");
+  } else {
+    drawLetreiro("Temperatura prof Thiago");
+    u8g.setFont(u8g_font_fub20);
+    u8g.setPrintPos(40, 50);
+    u8g.print(temperatura);
+    u8g.drawCircle(73, 33, 3);
+    u8g.drawStr(77, 50, "C");
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(pino_muda, INPUT);
+  dht.begin();
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    temperatura = dht.readTemperature();
+    umidade = dht.readHumidity();
+    previousMillis = currentMillis;
+  }
+  estado = digitalRead(pino_muda);
+  if (estado == HIGH) {
+    guarda_estado = !guarda_estado;
+    delay(500);
+  }
+
+  u8g.firstPage();
+  do {
+    draw();
+  } while (u8g.nextPage());
+  delay(50);
+}
