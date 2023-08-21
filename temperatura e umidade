@@ -59,6 +59,13 @@ void controlarBuzzer(int novaTemperatura, int temperaturaAnterior) {
   }
 }
 
+void piscaLuz(int pinoLed) {
+  digitalWrite(pinoLed, HIGH);
+  delay(200);
+  digitalWrite(pinoLed, LOW);
+  delay(200);
+}
+
 void draw() {
   u8g.setColorIndex(1);
   u8g.drawBox(0, 0, 128, 16);
@@ -97,10 +104,16 @@ void loop() {
     temperatura = dht.readTemperature();
     umidade = dht.readHumidity();
     previousMillis = currentMillis;
-    controlarLeds(temperatura);
     
-    if (temperatura != temperaturaAnterior) {
-      controlarBuzzer(temperatura, temperaturaAnterior);
+    // Controlar LEDs e buzzer
+    controlarLeds(temperatura);
+    controlarBuzzer(temperatura, temperaturaAnterior);
+    
+    // Pisca luz azul se a temperatura descer e luz vermelha se subir
+    if (temperatura > temperaturaAnterior) {
+      piscaLuz(ledVermelhoPin);  // Pisca luz vermelha
+    } else if (temperatura < temperaturaAnterior) {
+      piscaLuz(ledAzulPin);  // Pisca luz azul
     }
   }
   estado = digitalRead(pino_muda);
