@@ -22,7 +22,9 @@ int letreiroPosition = 128;
 
 const int ledAzulPin = 9;
 const int ledVermelhoPin = 10;
-const int buzzerPin = 11;  // Pino para o buzzer passivo
+const int buzzerPin = 11;
+
+bool temperaturaSubiu = false;
 
 void drawLetreiro(const char *text) {
   u8g.setColorIndex(0);
@@ -45,14 +47,15 @@ void controlarLeds(int temperatura) {
   }
 }
 
-void controlarBuzzer(int temperatura) {
-  if (temperatura == 21) {
-    for (int i = 0; i < 3; i++) {
-      tone(buzzerPin, 1000);  // Ligar o buzzer a 1000Hz
-      delay(200);  // Manter o som por 200ms
-      noTone(buzzerPin);  // Desligar o buzzer
-      delay(200);  // Esperar 200ms antes do próximo som
-    }
+void controlarBuzzer(int novaTemperatura, int temperaturaAnterior) {
+  if (novaTemperatura > temperaturaAnterior) {
+    tone(buzzerPin, 1000);  // Som agudo para subida de temperatura
+    delay(200);
+    noTone(buzzerPin);
+  } else if (novaTemperatura < temperaturaAnterior) {
+    tone(buzzerPin, 500);   // Som grave para descida de temperatura
+    delay(200);
+    noTone(buzzerPin);
   }
 }
 
@@ -61,7 +64,7 @@ void draw() {
   u8g.drawBox(0, 0, 128, 16);
 
   if (guarda_estado == HIGH) {
-    drawLetreiro("UMIDADE PROF THIAGO");
+    drawLetreiro("UMIDADE DO AR");
     u8g.setColorIndex(1);
     u8g.setFont(u8g_font_fub20);
     u8g.setPrintPos(40, 50);
@@ -83,18 +86,22 @@ void setup() {
   pinMode(pino_muda, INPUT);
   pinMode(ledAzulPin, OUTPUT);
   pinMode(ledVermelhoPin, OUTPUT);
-  pinMode(buzzerPin, OUTPUT);  // Definir o pino do buzzer como saída
+  pinMode(buzzerPin, OUTPUT);
   dht.begin();
 }
 
 void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
+    int temperaturaAnterior = temperatura;
     temperatura = dht.readTemperature();
     umidade = dht.readHumidity();
     previousMillis = currentMillis;
     controlarLeds(temperatura);
-    controlarBuzzer(temperatura);
+    
+    if (temperatura != temperaturaAnterior) {
+      controlarBuzzer(temperatura, temperaturaAnterior);
+    }
   }
   estado = digitalRead(pino_muda);
   if (estado == HIGH) {
