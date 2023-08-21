@@ -1,4 +1,4 @@
-# sensor-de-temperatura
+# Sensor-de-temperatura
 
 Bibliotecas Importadas:
 
