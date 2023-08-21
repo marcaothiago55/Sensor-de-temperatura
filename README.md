@@ -45,3 +45,15 @@ Controla os LEDs e o buzzer de acordo com as condições estabelecidas.
 Faz a animação do letreiro.
 Atualiza o display OLED com base nas informações de temperatura e umidade.
 O projeto utiliza o sensor DHT11 para medir a temperatura e a umidade do ambiente. O display OLED exibe a temperatura ou umidade, dependendo do estado do botão. Os LEDs e o buzzer são controlados para indicar a mudança na temperatura, com diferentes sons e piscadas de luz para diferentes situações. A animação do letreiro no topo do display acrescenta um toque visual ao projeto.
+
+Materiais Necessários para o Projeto com Sensor DHT11 com Display OLED
+Uno R3 + Cabo Usb para Arduino
+Display OLED 128×64 0.96″ I2C – Azul/Amarelo
+Módulo Sensor De Umidade e Temperatura DHT11 – sem Led
+Push Button (Chave Táctil) 6x6x6mm
+Resistor 330R 1/4W (10 Unidades)
+Jumpers – Macho/Macho – 65 Unidades
+Mini Protoboard 170 pontos
+2 resistores 220R
+Dois leds sendo um azul e um vermelho
+Um buzzer passivo 
