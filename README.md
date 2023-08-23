@@ -1,50 +1,39 @@
 # Sensor-de-temperatura
 
-Bibliotecas Importadas:
+Este código é um programa para um sensor de temperatura e umidade. Ele foi escrito pelo Professor Thiago Antonio Marcão para a aula 29 de Robótica Paraná na Escola Otalipío. O programa usa as bibliotecas Adafruit_AM2320, U8glib e DHT para ler os valores de temperatura e umidade do sensor DHT11 conectado ao pino A0. Ele também usa a biblioteca U8GLIB_SSD1306_128X64 para exibir esses valores em uma tela OLED.
 
-Adafruit_AM2320.h: Biblioteca para comunicação com o sensor de temperatura e umidade AM2320.
-U8glib.h: Biblioteca para controle do display OLED SSD1306.
-DHT.h: Biblioteca para interação com sensores de temperatura e umidade da família DHT.
-Definições de Pinos e Constantes:
+Esse código é um exemplo de um programa que utiliza um microcontrolador (possivelmente Arduino) para controlar um sistema que mede a temperatura e umidade do ambiente, exibe esses valores em um display OLED, controla LEDs e emite sons usando um buzzer de acordo com as mudanças na temperatura medida. Vou explicar as principais partes do código:
 
-pino_muda: Pino conectado ao botão que alterna entre exibir temperatura e umidade.
-pino_DHT: Pino ao qual o sensor DHT11 está conectado.
-DHTTYPE: Tipo do sensor DHT (DHT11 neste caso).
-ledAzulPin: Pino para controlar o LED azul.
-ledVermelhoPin: Pino para controlar o LED vermelho.
-buzzerPin: Pino para controlar o buzzer passivo.
-Variáveis Globais:
+Bibliotecas e Constantes Iniciais:
 
-temperatura: Armazena o valor da temperatura lido pelo sensor.
-umidade: Armazena o valor da umidade lido pelo sensor.
-guarda_estado: Controla se a tela exibe a temperatura ou umidade.
-estado: Armazena o estado atual do botão.
-previousMillis: Armazena o valor do tempo anterior para controlar a leitura periódica dos sensores.
-interval: Intervalo de tempo entre as leituras dos sensores.
-letreiroDelay: Atraso para a animação do letreiro.
-letreiroStep: Quantidade de pixels que o letreiro se move a cada iteração.
-letreiroPosition: Posição atual do letreiro no display.
-temperaturaSubiu: Variável de controle para determinar se a temperatura subiu.
-Funções:
+O código inclui as bibliotecas necessárias para a comunicação com os sensores e o controle do display.
+Também define constantes para os pinos usados pelo botão, sensor DHT, LEDs, e o buzzer.
+Define um intervalo de leitura para os sensores de 2 segundos.
+Função drawLetreiro e draw:
 
-drawLetreiro(text): Desenha o letreiro no display OLED com o texto especificado.
-controlarLeds(temperatura): Controla os LEDs vermelho e azul com base na temperatura.
-controlarBuzzer(novaTemperatura, temperaturaAnterior): Emite diferentes sons pelo buzzer quando a temperatura sobe ou desce.
-piscaLuz(pinoLed): Faz a luz associada ao pino piscar por um curto período de tempo.
-draw(): Função principal para desenhar os elementos no display OLED com base no estado atual.
-Configuração Inicial (setup()):
+A função drawLetreiro desenha um texto em movimento no display OLED.
+A função draw é responsável por desenhar os elementos estáticos no display, como os valores de temperatura e umidade.
+Configuração Inicial (setup):
 
-Inicialização das portas dos pinos.
-Inicialização dos sensores DHT.
-Configuração do baud rate da comunicação serial.
-Loop Principal (loop()):
+Inicializa a comunicação serial.
+Configura os pinos como entrada ou saída.
+Inicializa o sensor DHT.
+Loop Principal (loop):
 
-Verifica se é necessário alternar entre a exibição de temperatura e umidade.
-Realiza a leitura periódica dos sensores de temperatura e umidade.
-Controla os LEDs e o buzzer de acordo com as condições estabelecidas.
-Faz a animação do letreiro.
-Atualiza o display OLED com base nas informações de temperatura e umidade.
-O projeto utiliza o sensor DHT11 para medir a temperatura e a umidade do ambiente. O display OLED exibe a temperatura ou umidade, dependendo do estado do botão. Os LEDs e o buzzer são controlados para indicar a mudança na temperatura, com diferentes sons e piscadas de luz para diferentes situações. A animação do letreiro no topo do display acrescenta um toque visual ao projeto.
+O loop principal executa a maior parte das operações.
+A cada intervalo definido (2 segundos), os sensores de temperatura e umidade são lidos.
+Os LEDs e o buzzer são controlados de acordo com as mudanças de temperatura.
+Quando a temperatura atinge 30°C, o LED vermelho é ligado e o buzzer emite um som por 30 segundos.
+Quando a temperatura cai para 10°C, o LED azul é ligado e o buzzer emite um som por 30 segundos.
+O estado do botão é lido e o modo de exibição no display é alternado entre temperatura e umidade.
+Controle dos LEDs e Buzzer:
+
+As funções controlarLeds e controlarBuzzer são usadas para controlar os LEDs e o buzzer com base nas mudanças de temperatura.
+Funções Auxiliares:
+
+piscaLuz: Pisca rapidamente um LED para indicar mudanças de temperatura.
+Resumo:
+Esse código configura um sistema que lê a temperatura e umidade do ambiente usando um sensor DHT11, exibe esses valores em um display OLED, controla LEDs e emite sons através de um buzzer de acordo com as mudanças na temperatura. Também possui um botão que alterna entre exibir a temperatura e a umidade no display. Além disso, possui feedback visual e sonoro para mudanças específicas de temperatura. O programa foi desenvolvido para fins educacionais, como parte de uma aula de robótica em uma escola.
 
 Materiais Necessários para o Projeto com Sensor DHT11 com Display OLED
 Uno R3 + Cabo Usb para Arduino
