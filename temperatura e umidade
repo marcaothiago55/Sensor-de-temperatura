@@ -37,8 +37,11 @@ void drawLetreiro(const char *text) {
   }
 }
 
-void controlarLeds(int temperatura) {
-  if (temperatura <= 20) {
+void controlarLeds(int temperatura, int temperaturaAnterior) {
+  if (temperatura == temperaturaAnterior) {
+    digitalWrite(ledAzulPin, LOW);
+    digitalWrite(ledVermelhoPin, LOW);
+  } else if (temperatura <= 20) {
     digitalWrite(ledAzulPin, HIGH);
     digitalWrite(ledVermelhoPin, LOW);
   } else {
@@ -53,7 +56,7 @@ void controlarBuzzer(int novaTemperatura, int temperaturaAnterior) {
     delay(200);
     noTone(buzzerPin);
   } else if (novaTemperatura < temperaturaAnterior) {
-    tone(buzzerPin, 500);   // Som grave para descida de temperatura
+    tone(buzzerPin, 500);  // Som grave para descida de temperatura
     delay(200);
     noTone(buzzerPin);
   }
@@ -104,16 +107,32 @@ void loop() {
     temperatura = dht.readTemperature();
     umidade = dht.readHumidity();
     previousMillis = currentMillis;
-    
+
     // Controlar LEDs e buzzer
-    controlarLeds(temperatura);
+    controlarLeds(temperatura, temperaturaAnterior);  // passando a temperatura anterior como parâmetro
     controlarBuzzer(temperatura, temperaturaAnterior);
-    
+
     // Pisca luz azul se a temperatura descer e luz vermelha se subir
     if (temperatura > temperaturaAnterior) {
       piscaLuz(ledVermelhoPin);  // Pisca luz vermelha
     } else if (temperatura < temperaturaAnterior) {
       piscaLuz(ledAzulPin);  // Pisca luz azul
+    }
+
+    // Adicionando um bip de 30 segundos e a luz vermelha fique acessa quando chegar a 30 graus
+    if (temperatura >= 30) {
+      digitalWrite(ledVermelhoPin, HIGH);
+      tone(buzzerPin, 1000);
+      delay(30000);
+      noTone(buzzerPin);
+    }
+
+    // Adicionando um bip de 30 segundos com a luz azul quando chegar a 10 graus
+    if (temperatura <= 10) {
+      digitalWrite(ledAzulPin, HIGH);
+      tone(buzzerPin, 500);
+      delay(30000);
+      noTone(buzzerPin);
     }
   }
   estado = digitalRead(pino_muda);
