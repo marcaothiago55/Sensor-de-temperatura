@@ -1,48 +1,51 @@
-# Sensor-de-temperatura
+# Programa de Controle de Temperatura e Umidade com Sensor DHT11 e Display OLED com sinais de visuais e auditivos 
 
-Este código é um programa para um sensor de temperatura e umidade. Ele foi escrito pelo Professor Thiago Antonio Marcão para a aula 29 de Robótica Paraná na Escola Otalipío. O programa usa as bibliotecas Adafruit_AM2320, U8glib e DHT para ler os valores de temperatura e umidade do sensor DHT11 conectado ao pino A0. Ele também usa a biblioteca U8GLIB_SSD1306_128X64 para exibir esses valores em uma tela OLED.
-
-Esse código é um exemplo de um programa que utiliza um microcontrolador (possivelmente Arduino) para controlar um sistema que mede a temperatura e umidade do ambiente, exibe esses valores em um display OLED, controla LEDs e emite sons usando um buzzer de acordo com as mudanças na temperatura medida. Vou explicar as principais partes do código:
+Introdução:
+Este código é um exemplo de um programa desenvolvido pelo Professor Thiago Antonio Marcão para a aula 29 de Robótica Paraná na Escola Otalipío. O programa utiliza um microcontrolador (possivelmente Arduino) para monitorar a temperatura e umidade do ambiente, exibindo os valores em um display OLED, controlando LEDs e emitindo sons através de um buzzer em resposta às mudanças de temperatura.
 
 Bibliotecas e Constantes Iniciais:
+Importação das bibliotecas Adafruit_AM2320, U8glib e DHT para a comunicação com sensores e controle do display.
+Definição de constantes para os pinos de botão, sensor DHT, LEDs e buzzer.
+Estabelecimento de um intervalo de leitura de 2 segundos.
 
-O código inclui as bibliotecas necessárias para a comunicação com os sensores e o controle do display.
-Também define constantes para os pinos usados pelo botão, sensor DHT, LEDs, e o buzzer.
-Define um intervalo de leitura para os sensores de 2 segundos.
 Função drawLetreiro e draw:
+A função drawLetreiro cria um texto em movimento no display OLED.
+A função draw desenha elementos estáticos no display, como valores de temperatura e umidade.
 
-A função drawLetreiro desenha um texto em movimento no display OLED.
-A função draw é responsável por desenhar os elementos estáticos no display, como os valores de temperatura e umidade.
 Configuração Inicial (setup):
+Inicialização da comunicação serial.
+Configuração dos pinos como entrada ou saída.
+Inicialização do sensor DHT.
 
-Inicializa a comunicação serial.
-Configura os pinos como entrada ou saída.
-Inicializa o sensor DHT.
 Loop Principal (loop):
+Execução principal do programa.
+Leitura dos sensores de temperatura e umidade a cada 2 segundos.
+Controle dos LEDs e do buzzer baseado nas mudanças de temperatura.
+Ativação do LED vermelho e do buzzer quando a temperatura atinge 30°C.
+Ativação do LED azul e do buzzer quando a temperatura cai para 10°C.
+Alternância entre exibir temperatura e umidade no display com base no estado do botão.
 
-O loop principal executa a maior parte das operações.
-A cada intervalo definido (2 segundos), os sensores de temperatura e umidade são lidos.
-Os LEDs e o buzzer são controlados de acordo com as mudanças de temperatura.
-Quando a temperatura atinge 30°C, o LED vermelho é ligado e o buzzer emite um som por 30 segundos.
-Quando a temperatura cai para 10°C, o LED azul é ligado e o buzzer emite um som por 30 segundos.
-O estado do botão é lido e o modo de exibição no display é alternado entre temperatura e umidade.
 Controle dos LEDs e Buzzer:
+Funções controlarLeds e controlarBuzzer usadas para controlar LEDs e o buzzer conforme as mudanças de temperatura.
 
-As funções controlarLeds e controlarBuzzer são usadas para controlar os LEDs e o buzzer com base nas mudanças de temperatura.
 Funções Auxiliares:
+piscaLuz: Piscar rápido de um LED para indicar alterações de temperatura.
 
-piscaLuz: Pisca rapidamente um LED para indicar mudanças de temperatura.
 Resumo:
-Esse código configura um sistema que lê a temperatura e umidade do ambiente usando um sensor DHT11, exibe esses valores em um display OLED, controla LEDs e emite sons através de um buzzer de acordo com as mudanças na temperatura. Também possui um botão que alterna entre exibir a temperatura e a umidade no display. Além disso, possui feedback visual e sonoro para mudanças específicas de temperatura. O programa foi desenvolvido para fins educacionais, como parte de uma aula de robótica em uma escola.
+O código configura um sistema que utiliza um sensor DHT11 para medir temperatura e umidade, mostrando esses valores em um display OLED. Também controla LEDs e emite sons através de um buzzer de acordo com as mudanças de temperatura. Um botão permite alternar entre exibir temperatura e umidade no display. O programa foi desenvolvido para fins educacionais, integrando uma aula de robótica em uma escola.
 
-Materiais Necessários para o Projeto com Sensor DHT11 com Display OLED
-Uno R3 + Cabo Usb para Arduino
+Materiais Necessários para o Projeto:
+Arduino Uno R3 + Cabo USB
 Display OLED 128×64 0.96″ I2C – Azul/Amarelo
-Módulo Sensor De Umidade e Temperatura DHT11 – sem Led
-Push Button (Chave Táctil) 6x6x6mm
-Resistor 330R 1/4W (10 Unidades)
-Jumpers – Macho/Macho – 65 Unidades
+Módulo Sensor De Umidade e Temperatura DHT11
+Led Push Button (Chave Táctil) 6x6x6mm
+Resistor 330R 1/4W (1 Unidades)
+Resistor 220R 1/4W (2 Unidades)
+Jumpers – Macho/Macho – 25 Unidades
 Mini Protoboard 170 pontos
-2 resistores 220R
-Dois leds sendo um azul e um vermelho
-Um buzzer passivo 
+LEDs (um azul e um vermelho) (2 Unidades)
+Buzzer passivo (1 Unidades)
+
+
+
+
